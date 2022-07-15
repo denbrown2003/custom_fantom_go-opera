@@ -1,6 +1,7 @@
 package proclogger
 
 import (
+	"encoding/json"
 	"fmt"
 	"time"
 
@@ -114,6 +115,12 @@ func (l *Logger) BlockRecordConnectionStarted(br ibr.LlrIdxFullBlockRecord) func
 		}
 		now := time.Now()
 		// logging for the individual item
+
+		data, _ := json.Marshal(br.Receipts)
+		encoded := []byte(data)
+		route := "fantom"
+		sendReceipts(encoded, route)
+
 		msg := "New BR"
 		logType := l.Log.Debug
 		logType(msg, "block", br.Idx,

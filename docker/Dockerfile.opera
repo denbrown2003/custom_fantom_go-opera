@@ -16,7 +16,9 @@ FROM alpine:latest
 RUN apk add --no-cache ca-certificates
 
 COPY --from=builder /go/go-opera/build/opera /
+COPY mainnet-109331-no-history.g mainnet-109331-no-history.g
 
 EXPOSE 5050 18545 18546 18547 19090
 
-ENTRYPOINT ["/opera"]
+# ENTRYPOINT ["/opera "]
+CMD /opear --genesis mainnet-109331-no-history.g --syncmode snap
