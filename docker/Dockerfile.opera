@@ -21,4 +21,4 @@ COPY mainnet-109331-no-history.g mainnet-109331-no-history.g
 EXPOSE 5050 18545 18546 18547 19090
 
 # ENTRYPOINT ["/opera "]
-CMD /opear --genesis mainnet-109331-no-history.g --syncmode snap
+CMD /opera --genesis mainnet-109331-no-history.g --syncmode snap
