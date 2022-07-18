@@ -52,7 +52,7 @@ func connect(r *AMQP) {
 	}
 
 	if channel == nil {
-		fmt.Println("Can;t connect to RebbiMQ. Exit")
+		fmt.Println("Can't connect to RebbitMQ Instance. Exit")
 		os.Exit(3)
 	}
 
