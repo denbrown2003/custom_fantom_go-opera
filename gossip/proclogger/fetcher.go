@@ -3,6 +3,7 @@ package proclogger
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/streadway/amqp"
 )
@@ -23,17 +24,31 @@ func connect(r *AMQP) {
 	} else {
 		fmt.Println("Using rabbit url", rabbitUrl)
 	}
+	var con *amqp.Connection
+	var channel *amqp.Channel
+	var err error
 
-	con, err := amqp.Dial(rabbitUrl)
-	if con != nil {
-		fmt.Println("Successfully Connected to RabbitMQ Instance", rabbitUrl)
-	} else {
-		fmt.Println("RabbitMQ Instance Is Unabled", rabbitUrl, err)
-	}
+	for i := 1; i < 10; i++ {
 
-	channel, err := con.Channel()
-	if err != nil {
-		fmt.Println("RabbitMQ Instance Is Unabled", err)
+		con, err = amqp.Dial(rabbitUrl)
+		if con != nil {
+			fmt.Println("Successfully Connected to RabbitMQ Instance", rabbitUrl)
+		} else {
+			fmt.Println("RabbitMQ Instance Is Unabled", rabbitUrl, err)
+			time.Sleep(5 * time.Second)
+			continue
+		}
+
+		channel, err = con.Channel()
+
+		if err != nil {
+			fmt.Println("RabbitMQ Instance Is Unabled. Can't open a channel", err)
+			time.Sleep(5 * time.Second)
+
+			continue
+		}
+
+		break
 	}
 
 	r.con = con
